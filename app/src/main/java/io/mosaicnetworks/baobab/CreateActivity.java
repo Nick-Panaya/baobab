@@ -18,6 +18,9 @@ import android.widget.TextView;
 
 public class CreateActivity extends AppCompatActivity {
 
+    private final MessagingService mMessagingService =
+            MessagingService.getInstance();
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,9 +42,11 @@ public class CreateActivity extends AppCompatActivity {
                 // Read description text
                 final String description = mTv.getText().toString();
 
+                mMessagingService.submitTx(
+                        new Message(description, mMoniker, "INIT", 0).toBabbleTx());
+
+
                 Intent intent = new Intent(context, AuctionActivity.class);
-                // Pass description and moniker to the next activity
-                intent.putExtra("DESCRIPTION", description );
                 intent.putExtra("MONIKER", mMoniker);
 
                 startActivity(intent);

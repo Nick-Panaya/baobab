@@ -16,8 +16,9 @@ public class AppState implements BabbleState {
     private final Map<Integer, BabbleTx> mState = new HashMap<>();
     private Integer mNextIndex = 0;
 
-    // NULL, OPEN, or CLOSED
-    private String mStatus = "NULL";
+    private String mCreator = "";
+    private String mDescription = "";
+    private String mStatus = "NULL"; // NULL, OPEN, or CLOSED
     private int mMin = 0;
 
     @Override
@@ -38,6 +39,8 @@ public class AppState implements BabbleState {
             switch (babbleTx.type) {
                 case "INIT":
                     if (mStatus == "NULL") {
+                        mCreator = babbleTx.from;
+                        mDescription = babbleTx.text;
                         mMin = babbleTx.amount;
                         mStatus = "OPEN";
                     } else {
@@ -82,25 +85,26 @@ public class AppState implements BabbleState {
     public void reset() {
         mState.clear();
         mNextIndex = 0;
+        mCreator = "";
+        mDescription = "";
         mStatus = "NULL";
         mMin = 0;
     }
 
-    public List<Message> getMessagesFromIndex(Integer index) {
-        if (index < 0) {
-            throw new IllegalArgumentException("Index cannot be less than 0");
-        }
-        if (index >= mNextIndex) {
-            return new ArrayList<>();
-        }
-        Integer numMessages = mNextIndex - index;
-        List<Message> messages = new ArrayList<>(numMessages);
+    public String getCreator() {
+        return mCreator;
+    }
 
-        for (int i = 0; i < numMessages; i++) {
-            messages.add(Message.fromBabbleTx(mState.get(index)));
-        }
+    public String getDescription() {
+        return mDescription;
+    }
 
-        return messages;
+    public String getStatus() {
+        return mStatus;
+    }
+
+    public int getHighestBid() {
+        return mMin;
     }
 
     private void updateStateHash() {

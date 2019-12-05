@@ -14,7 +14,6 @@
             android:name=".CreateActivity"
             android:label="@string/title_activity_create"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ChatActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -23,19 +23,15 @@ public class MainActivity extends BaseConfigActivity {
 
     @Override
     public void onJoined(String moniker) {
-
+        Intent intent = new Intent(this, AuctionActivity.class);
+        intent.putExtra("MONIKER", moniker);
+        startActivity(intent);
     }
 
     @Override
     public void onStartedNew(String moniker) {
-        Bundle b = new Bundle();
-        b.putString("MONIKER", moniker);
-
         Intent intent = new Intent(this, CreateActivity.class);
-        intent.putExtras(b);
-
-        //intent.putExtra("MONIKER", moniker);
-
+        intent.putExtra("MONIKER", moniker);
         startActivity(intent);
     }
 }
