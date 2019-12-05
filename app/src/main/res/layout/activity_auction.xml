@@ -102,10 +102,16 @@
                 android:text="" />
         </LinearLayout>
 
+        <Button
+            android:id="@+id/closeButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Close"
+            android:onClick="onClickClose"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:layout_marginTop="100dp"
             android:orientation="horizontal">
 
             <EditText
@@ -124,6 +130,9 @@
                 android:text="Bid"
                 android:onClick="onClickBid"/>
         </LinearLayout>
+
+
+
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

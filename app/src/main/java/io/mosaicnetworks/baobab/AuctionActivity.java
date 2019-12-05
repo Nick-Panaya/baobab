@@ -43,6 +43,7 @@ public class AuctionActivity extends AppCompatActivity implements ServiceObserve
         }
 
         stateUpdated();
+
     }
 
     @Override
@@ -53,10 +54,16 @@ public class AuctionActivity extends AppCompatActivity implements ServiceObserve
         mStatus = mMessagingService.state.getStatus();
         mHighestBid = mMessagingService.state.getHighestBid();
 
+        final Boolean hideClose = (!mCreator.equals(mMoniker)) || mStatus.equals("CLOSED");
+        final Boolean hideBid = mStatus.equals( "CLOSED");
+
         final TextView creatorTV = (TextView) findViewById(R.id.creatorValue);
         final TextView descTV = (TextView) findViewById(R.id.descriptionValue);
         final TextView statusTV = (TextView) findViewById(R.id.statusValue);
         final TextView hbTV = (TextView) findViewById(R.id.bidValue);
+        final TextView nbTV = (TextView) findViewById(R.id.newBidInput);
+        final View closeButton = findViewById(R.id.closeButton);
+        final View bidButton = findViewById(R.id.newBidButton);
 
         runOnUiThread(new Runnable() {
             @Override
@@ -65,6 +72,13 @@ public class AuctionActivity extends AppCompatActivity implements ServiceObserve
                 descTV.setText(mDescription);
                 statusTV.setText(mStatus);
                 hbTV.setText(Integer.toString(mHighestBid));
+                if (hideClose) {
+                    closeButton.setVisibility(View.INVISIBLE);
+                }
+                if (hideBid) {
+                    nbTV.setVisibility(View.INVISIBLE);
+                    bidButton.setVisibility(View.INVISIBLE);
+                }
             }
         });
     }
@@ -81,8 +95,7 @@ public class AuctionActivity extends AppCompatActivity implements ServiceObserve
         super.onDestroy();
     }
 
-    public void onClickBid(View v)
-    {
+    public void onClickBid(View v) {
         final TextView bidV = findViewById(R.id.newBidInput);
         int newBid = 0;
 
@@ -94,6 +107,12 @@ public class AuctionActivity extends AppCompatActivity implements ServiceObserve
 
         mMessagingService.submitTx(
                 new Message("", mMoniker, "BID", newBid).toBabbleTx());
+
+    }
+
+    public void onClickClose(View v) {
+        mMessagingService.submitTx(
+                new Message("", mMoniker, "CLOSE", 0).toBabbleTx());
 
     }
 }
