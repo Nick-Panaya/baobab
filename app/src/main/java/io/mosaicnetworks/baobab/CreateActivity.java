@@ -39,7 +39,7 @@ public class CreateActivity extends AppCompatActivity {
                 // Read description text
                 final String description = mTv.getText().toString();
 
-                Intent intent = new Intent(context, ChatActivity.class);
+                Intent intent = new Intent(context, AuctionActivity.class);
                 // Pass description and moniker to the next activity
                 intent.putExtra("DESCRIPTION", description );
                 intent.putExtra("MONIKER", mMoniker);
