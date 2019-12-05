@@ -13,34 +13,37 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 public class CreateActivity extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        final Context context = this;
 
+        // Retrieve the moniker passed from previous activity
         Intent intent = getIntent();
         final String mMoniker = intent.getStringExtra("MONIKER");
 
-        final TextInputLayout mTil = findViewById(R.id.descriptionInput);
-        mTil.setErrorEnabled(false);
-        mTil.setError("Cant be blank");
+        // Get handle to TextView item
+        final TextView mTv = findViewById(R.id.description);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-
-        final Context context = this;
-
-        fab.setOnClickListener(new View.OnClickListener() {
+        // Define what the button does
+        Button button = findViewById(R.id.submit_button);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String description = mTil.getEditText().getText().toString();
+                // Read description text
+                final String description = mTv.getText().toString();
+
                 Intent intent = new Intent(context, ChatActivity.class);
-                intent.putExtra("MONIKER", mMoniker);
+                // Pass description and moniker to the next activity
                 intent.putExtra("DESCRIPTION", description );
+                intent.putExtra("MONIKER", mMoniker);
+
                 startActivity(intent);
             }
         });

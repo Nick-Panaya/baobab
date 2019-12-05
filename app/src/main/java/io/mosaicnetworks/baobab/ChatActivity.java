@@ -28,10 +28,13 @@ public class ChatActivity extends AppCompatActivity implements ServiceObserver {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
         Intent intent = getIntent();
         mMoniker = intent.getStringExtra("MONIKER");
         mDescription = intent.getStringExtra("DESCRIPTION");
+
         initialiseAdapter();
+
         mMessagingService.registerObserver(this);
 
         if (mMessagingService.getState() !=

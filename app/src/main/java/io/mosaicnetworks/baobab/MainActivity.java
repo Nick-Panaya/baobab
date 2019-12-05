@@ -28,8 +28,14 @@ public class MainActivity extends BaseConfigActivity {
 
     @Override
     public void onStartedNew(String moniker) {
+        Bundle b = new Bundle();
+        b.putString("MONIKER", moniker);
+
         Intent intent = new Intent(this, CreateActivity.class);
-        intent.putExtra("MONIKER", moniker);
+        intent.putExtras(b);
+
+        //intent.putExtra("MONIKER", moniker);
+
         startActivity(intent);
     }
 }
