@@ -19,7 +19,8 @@ public class AppState implements BabbleState {
     private String mCreator = "";
     private String mDescription = "";
     private String mStatus = "NULL"; // NULL, OPEN, or CLOSED
-    private int mMin = 0;
+    private int mMax = 0;
+    private String mWinner = "";
 
     @Override
     public byte[] applyTransactions(byte[][] transactions) {
@@ -41,7 +42,7 @@ public class AppState implements BabbleState {
                     if (mStatus == "NULL") {
                         mCreator = babbleTx.from;
                         mDescription = babbleTx.text;
-                        mMin = babbleTx.amount;
+                        mMax = babbleTx.amount;
                         mStatus = "OPEN";
                     } else {
                         continue;
@@ -49,8 +50,9 @@ public class AppState implements BabbleState {
                     break;
                 case "BID":
                     if (mStatus == "OPEN") {
-                        if (babbleTx.amount > mMin) {
-                            mMin = babbleTx.amount;
+                        if (babbleTx.amount > mMax) {
+                            mMax = babbleTx.amount;
+                            mWinner = babbleTx.from;
                         } else {
                             continue;
                         }
@@ -88,7 +90,7 @@ public class AppState implements BabbleState {
         mCreator = "";
         mDescription = "";
         mStatus = "NULL";
-        mMin = 0;
+        mMax = 0;
     }
 
     public String getCreator() {
@@ -104,8 +106,10 @@ public class AppState implements BabbleState {
     }
 
     public int getHighestBid() {
-        return mMin;
+        return mMax;
     }
+
+    public String getWinner() { return mWinner; }
 
     private void updateStateHash() {
         // TODO: implement this

@@ -30,7 +30,7 @@
 
             <TextView
                 android:id="@+id/creatorLabel"
-                android:layout_width="100dp"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:text="Creator"
                 android:textSize="14sp"
@@ -52,7 +52,7 @@
 
             <TextView
                 android:id="@+id/descriptionLabel"
-                android:layout_width="100dp"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:text="Description"
                 android:textStyle="bold" />
@@ -71,7 +71,7 @@
 
             <TextView
                 android:id="@+id/statusLabel"
-                android:layout_width="100dp"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:text="Status"
                 android:textStyle="bold" />
@@ -90,13 +90,33 @@
 
             <TextView
                 android:id="@+id/bidLabel"
-                android:layout_width="100dp"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:text="Highest Bid"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/bidValue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/winnerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="39dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/winnerLabel"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:text="Highest Bidder"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/winnerValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="" />
@@ -110,6 +130,7 @@
             android:onClick="onClickClose"/>
 
         <LinearLayout
+            android:id="@+id/bidLayout"
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:orientation="horizontal">
@@ -131,10 +152,8 @@
                 android:onClick="onClickBid"/>
         </LinearLayout>
 
-
-
-
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

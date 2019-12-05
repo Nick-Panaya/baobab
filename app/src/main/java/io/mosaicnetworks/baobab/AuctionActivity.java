@@ -20,7 +20,7 @@ public class AuctionActivity extends AppCompatActivity implements ServiceObserve
     private String mDescription;
     private String mStatus;
     private int mHighestBid;
-    private int mParticipants;
+    private String mWinner;
 
     private final MessagingService mMessagingService =
             MessagingService.getInstance();
@@ -53,6 +53,7 @@ public class AuctionActivity extends AppCompatActivity implements ServiceObserve
         mDescription = mMessagingService.state.getDescription();
         mStatus = mMessagingService.state.getStatus();
         mHighestBid = mMessagingService.state.getHighestBid();
+        mWinner = mMessagingService.state.getWinner();
 
         final Boolean hideClose = (!mCreator.equals(mMoniker)) || mStatus.equals("CLOSED");
         final Boolean hideBid = mStatus.equals( "CLOSED");
@@ -61,9 +62,9 @@ public class AuctionActivity extends AppCompatActivity implements ServiceObserve
         final TextView descTV = (TextView) findViewById(R.id.descriptionValue);
         final TextView statusTV = (TextView) findViewById(R.id.statusValue);
         final TextView hbTV = (TextView) findViewById(R.id.bidValue);
-        final TextView nbTV = (TextView) findViewById(R.id.newBidInput);
+        final TextView winnerTV = (TextView) findViewById(R.id.winnerValue);
         final View closeButton = findViewById(R.id.closeButton);
-        final View bidButton = findViewById(R.id.newBidButton);
+        final View bidLayout = findViewById(R.id.bidLayout);
 
         runOnUiThread(new Runnable() {
             @Override
@@ -72,12 +73,18 @@ public class AuctionActivity extends AppCompatActivity implements ServiceObserve
                 descTV.setText(mDescription);
                 statusTV.setText(mStatus);
                 hbTV.setText(Integer.toString(mHighestBid));
+                winnerTV.setText(mWinner);
+
                 if (hideClose) {
                     closeButton.setVisibility(View.INVISIBLE);
+                }else{
+                    closeButton.setVisibility(View.VISIBLE);
                 }
+
                 if (hideBid) {
-                    nbTV.setVisibility(View.INVISIBLE);
-                    bidButton.setVisibility(View.INVISIBLE);
+                    bidLayout.setVisibility(View.INVISIBLE);
+                }else{
+                    bidLayout.setVisibility(View.VISIBLE);
                 }
             }
         });
