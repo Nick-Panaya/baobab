@@ -16,8 +16,14 @@ public class AppState implements BabbleState {
     private final Map<Integer, BabbleTx> mState = new HashMap<>();
     private Integer mNextIndex = 0;
 
+    // NULL, OPEN, or CLOSED
+    private String mStatus = "NULL";
+    private int mMin = 0;
+
     @Override
     public byte[] applyTransactions(byte[][] transactions) {
+
+        Boolean breakout = false;
         for (byte[] rawTx : transactions) {
             String tx = new String(rawTx, StandardCharsets.UTF_8);
             BabbleTx babbleTx;
@@ -29,8 +35,42 @@ public class AppState implements BabbleState {
                 continue;
             }
 
+            switch (babbleTx.type) {
+                case "INIT":
+                    if (mStatus == "NULL") {
+                        mMin = babbleTx.amount;
+                        mStatus = "OPEN";
+                    } else {
+                        continue;
+                    }
+                    break;
+                case "BID":
+                    if (mStatus == "OPEN") {
+                        if (babbleTx.amount > mMin) {
+                            mMin = babbleTx.amount;
+                        } else {
+                            continue;
+                        }
+                    } else {
+                        continue;
+                    }
+                    break;
+                case "CLOSE":
+                    if (mStatus != "CLOSED") {
+                        mStatus = "CLOSED";
+                        breakout = true;
+                    }
+                    break;
+                default:
+                    break;
+            }
+
             mState.put(mNextIndex, babbleTx);
             mNextIndex++;
+
+            if (breakout) {
+                break;
+            }
         }
 
         updateStateHash();
@@ -42,6 +82,8 @@ public class AppState implements BabbleState {
     public void reset() {
         mState.clear();
         mNextIndex = 0;
+        mStatus = "NULL";
+        mMin = 0;
     }
 
     public List<Message> getMessagesFromIndex(Integer index) {

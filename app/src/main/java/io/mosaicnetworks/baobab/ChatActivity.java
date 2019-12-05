@@ -3,17 +3,23 @@ package io.mosaicnetworks.baobab;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
+
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.stfalcon.chatkit.messages.MessageInput;
 import com.stfalcon.chatkit.messages.MessagesList;
 import com.stfalcon.chatkit.messages.MessagesListAdapter;
+
 import java.util.List;
+
 import io.mosaicnetworks.babble.node.BabbleService;
 import io.mosaicnetworks.babble.node.ServiceObserver;
 
 public class ChatActivity extends AppCompatActivity implements ServiceObserver {
     private MessagesListAdapter<Message> mAdapter;
     private String mMoniker;
+    private String mDescription;
     private final MessagingService mMessagingService =
             MessagingService.getInstance();
     private Integer mMessageIndex = 0;
@@ -24,6 +30,7 @@ public class ChatActivity extends AppCompatActivity implements ServiceObserver {
         setContentView(R.layout.activity_chat);
         Intent intent = getIntent();
         mMoniker = intent.getStringExtra("MONIKER");
+        mDescription = intent.getStringExtra("DESCRIPTION");
         initialiseAdapter();
         mMessagingService.registerObserver(this);
 
@@ -33,6 +40,9 @@ public class ChatActivity extends AppCompatActivity implements ServiceObserver {
                     "Unable to advertise peers",
                     Toast.LENGTH_LONG).show();
         }
+
+        mMessagingService.submitTx(
+                new Message("New Auction from " + mMoniker +": " + mDescription, mMoniker, "INIT", 0).toBabbleTx());
     }
 
     private void initialiseAdapter() {
@@ -44,8 +54,21 @@ public class ChatActivity extends AppCompatActivity implements ServiceObserver {
         input.setInputListener(new MessageInput.InputListener() {
             @Override
             public boolean onSubmit(CharSequence input) {
+
+                int amount = 0;
+                try {
+                    amount = Integer.parseInt(input.toString());
+                }
+                catch (NumberFormatException e)
+                {
+                  return false;
+                }
+
+                // TODO: Display error message if amount < state.min
+
                 mMessagingService.submitTx(
-                        new Message(input.toString(), mMoniker).toBabbleTx());
+                        new Message("", mMoniker, "BID", amount).toBabbleTx());
+
                 return true;
             }
         });

@@ -31,22 +31,26 @@ public final class Message implements IMessage {
         }
     }
 
+    private final String mType;
     private final String mText;
+    private final int mAmount;
     private final String mAuthor;
     private final Date mDate;
 
-    public Message(String text, String author) {
+    public Message(String text, String author, String type, int amount) {
         mText = text;
         mAuthor = author;
+        mType = type;
+        mAmount = amount;
         mDate = new Date();
     }
 
     public static Message fromBabbleTx(BabbleTx babbleTx) {
-        return new Message(babbleTx.text, babbleTx.from);
+        return new Message(babbleTx.text, babbleTx.from, babbleTx.type, babbleTx.amount);
     }
 
     public BabbleTx toBabbleTx() {
-        return new BabbleTx(mAuthor, mText);
+        return new BabbleTx(mAuthor, mType, mText, mAmount);
     }
 
     @Override
@@ -56,7 +60,17 @@ public final class Message implements IMessage {
 
     @Override
     public String getText() {
-        return mText;
+
+        switch (mType) {
+            case "INIT":
+                return mText;
+            case "BID":
+                return String.valueOf(mAmount);
+            case "CLOSE":
+                return "CLOSED";
+        }
+
+        return "";
     }
 
     @Override

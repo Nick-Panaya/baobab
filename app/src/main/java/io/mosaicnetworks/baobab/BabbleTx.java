@@ -10,12 +10,21 @@ public class BabbleTx implements io.mosaicnetworks.babble.node.BabbleTx {
     @SerializedName("from")
     public final String from;
 
+    @SerializedName("type")
+    public final String type;
+
     @SerializedName("text")
     public final String text;
 
-    public BabbleTx(String from, String text) {
+    @SerializedName("amount")
+    public final int amount;
+
+
+    public BabbleTx(String from, String type, String text, int amount) {
         this.from = from;
+        this.type = type;
         this.text = text;
+        this.amount = amount;
     }
 
     public static BabbleTx fromJson(String txJson) {

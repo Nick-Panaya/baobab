@@ -2,6 +2,7 @@ package io.mosaicnetworks.baobab;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -27,7 +28,7 @@ public class MainActivity extends BaseConfigActivity {
 
     @Override
     public void onStartedNew(String moniker) {
-        Intent intent = new Intent(this, ChatActivity.class);
+        Intent intent = new Intent(this, CreateActivity.class);
         intent.putExtra("MONIKER", moniker);
         startActivity(intent);
     }
