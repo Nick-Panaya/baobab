@@ -56,7 +56,8 @@ public class AuctionActivity extends AppCompatActivity implements ServiceObserve
         mWinner = mMessagingService.state.getWinner();
 
         final Boolean hideClose = (!mCreator.equals(mMoniker)) || mStatus.equals("CLOSED");
-        final Boolean hideBid = mStatus.equals( "CLOSED");
+        final Boolean hideBid = mStatus.equals("CLOSED");
+        final Boolean showChat = mStatus.equals("CLOSED") && (mCreator.equals(mMoniker) || mWinner.equals(mMoniker));
 
         final TextView creatorTV = (TextView) findViewById(R.id.creatorValue);
         final TextView descTV = (TextView) findViewById(R.id.descriptionValue);
@@ -65,6 +66,7 @@ public class AuctionActivity extends AppCompatActivity implements ServiceObserve
         final TextView winnerTV = (TextView) findViewById(R.id.winnerValue);
         final View closeButton = findViewById(R.id.closeButton);
         final View bidLayout = findViewById(R.id.bidLayout);
+        final View chatButton = findViewById(R.id.chatButton);
 
         runOnUiThread(new Runnable() {
             @Override
@@ -77,15 +79,22 @@ public class AuctionActivity extends AppCompatActivity implements ServiceObserve
 
                 if (hideClose) {
                     closeButton.setVisibility(View.INVISIBLE);
-                }else{
+                } else {
                     closeButton.setVisibility(View.VISIBLE);
                 }
 
                 if (hideBid) {
                     bidLayout.setVisibility(View.INVISIBLE);
-                }else{
+                } else {
                     bidLayout.setVisibility(View.VISIBLE);
                 }
+
+                if (showChat) {
+                    chatButton.setVisibility(View.VISIBLE);
+                } else {
+                    chatButton.setVisibility(View.INVISIBLE);
+                }
+
             }
         });
     }

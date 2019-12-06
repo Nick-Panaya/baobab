@@ -152,6 +152,14 @@
                 android:onClick="onClickBid"/>
         </LinearLayout>
 
+        <Button
+            android:id="@+id/chatButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Start Chat"
+            android:visibility="visible"
+            tools:visibility="invisible" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
