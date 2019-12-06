@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 import io.mosaicnetworks.babble.node.BabbleService;
@@ -64,6 +66,7 @@ public class AuctionActivity extends AppCompatActivity implements ServiceObserve
         final TextView statusTV = (TextView) findViewById(R.id.statusValue);
         final TextView hbTV = (TextView) findViewById(R.id.bidValue);
         final TextView winnerTV = (TextView) findViewById(R.id.winnerValue);
+        final TextView participantsTV = (TextView) findViewById(R.id.participantsValue);
         final View closeButton = findViewById(R.id.closeButton);
         final View bidLayout = findViewById(R.id.bidLayout);
         final View chatButton = findViewById(R.id.chatButton);
@@ -76,6 +79,7 @@ public class AuctionActivity extends AppCompatActivity implements ServiceObserve
                 statusTV.setText(mStatus);
                 hbTV.setText(Integer.toString(mHighestBid));
                 winnerTV.setText(mWinner);
+                participantsTV.setText(Integer.toString(mMessagingService.getCurrentPeers().size()));
 
                 if (hideClose) {
                     closeButton.setVisibility(View.INVISIBLE);
